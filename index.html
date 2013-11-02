@@ -32,8 +32,12 @@
 					<tr>
 						<th></th>
 						<!-- ko foreach: when2d() -->
-						<td class="date" data-bind="text: $data.date, attr: {colspan: $data.times().length}"></td>
+						<td class="date" data-bind="text: date, attr: {colspan: times().length}"></td>
 						<!-- /ko -->
+						<td class="new date">
+							<!-- IMPORTANT NOTIFICATION: ONLY WORKS IN … -->
+							<input type="datetime-local" data-bind="value: newDate">
+						</td>
 					</tr>
 					<tr>
 						<th></th>
@@ -45,7 +49,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- ko foreach: who -->
+					<!-- ko foreach: compWho -->
 					<tr>
 						<th data-bind="text: name"></th>
 						<!-- ko foreach: when -->

@@ -1,3 +1,16 @@
+// 2x UUID HELPERS
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
+};
+
+function guid() {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+         s4() + '-' + s4() + s4() + s4();
+}
+
+
 function Pooper(name, when, globalWhen) {
 	var self = this
 	self.name  = name
@@ -28,13 +41,17 @@ function PoopleViewModel() {
 	self.where = ko.observable()
 	self.when  = ko.observableArray()
 	self.who   = ko.observableArray()
+
+	// EMPTY ADDER FUCKERS
+	self.newDate = ko.observable()
 	self.newWho  = ko.observable()
 	self.newWhen = ko.observableArray([])
 
 	self.when2d = ko.computed(function() {
 		var computedWhen = {}
 
-		var whens = self.when();
+		var whens = self.when()
+
 		for (var i = 0; i < whens.length; i++) {
 			var datetime = whens[i].split("T");
 			var date = datetime[0]
@@ -52,24 +69,18 @@ function PoopleViewModel() {
 		return doubleComputed;
 	})
 
-	// var updateData = function(data) {
-	// 	console.log("WELCOME TO NEW POOP WORLD", data.val())
-	// 	var poople = data.val()
-
-	// 	// DO ACTUAL POOP
-	// 	self.what(poople.what)
-	// 	self.where(poople.where)
-	// 	self.when(poople.when)
-	// 	for (var i = 0; i < poople.who.length; i++) {
-	// 		self.who.push(new Pooper(poople.who[i].name, poople.who[i].when, poople.when));
-	// 	}
-	// 	//self.who(poople.who)
-
-	// 	console.log("JOSONN", ko.toJSON({
-	// 		what: self.what,
-	// 		where: self.where
-	// 	}));
-	// }
+	self.compWho = ko.computed(function() {
+		var computed = [];
+		for (var dude in self.who()) {
+			if (self.who()[dude].name != self.newWho()) {
+				if (self.who()[dude].when)
+					computed.push(new Pooper(self.who()[dude].name, self.who()[dude].when, self.when()));
+				else
+					computed.push(new Pooper(self.who()[dude].name, [], self.when()))
+				}
+		}
+		return computed;
+	})
 
 	Sammy(function() {
 		this.get("#new", function() {
@@ -88,23 +99,18 @@ function PoopleViewModel() {
 				self.where(data.val())
 			});
 			poop.child("when").on("value", function(data) {
-				self.when(data.val())
+				self.when(data.val() || [])
 			});
 			poop.child("who").on("value", function(data) {
-				var who = data.val();
-				self.who.removeAll();
-				for (var dude in who) {
-					if (who[dude].name != self.newWho()) {
-						if (who[dude].when)
-							self.who.push(new Pooper(who[dude].name, who[dude].when, self.when()));
-						else
-							self.who.push(new Pooper(who[dude].name, [], self.when()))
-					}
-				}
+				self.who(data.val());
 			});
 		})
 
-	    this.get("", function() { this.app.runRoute("get", "#new") })
+	    this.get("", function() {
+	    	var eventid = guid();
+
+	    	location.hash = "/event/" + eventid;
+	    })
 
 	}).run()
 
@@ -113,7 +119,7 @@ function PoopleViewModel() {
 		self.poop.child(prop).set(val);
 	}
 	var saveNewPooper = function() {
-		console.log("newWho")
+		console.log("newpooper", self.newpooper)
 		if (! self.newpooper) {
 			self.newpooper = self.poop.child("who").push({
 				"name": self.newWho(),
@@ -127,12 +133,21 @@ function PoopleViewModel() {
 			})
 		}
 	}
+
 	// TODO: beautify
 	self.what.subscribe(function(newWhat) {
 		saver("what", newWhat);
 	});
 	self.where.subscribe(function(newWhere) {
 		saver("where", newWhere);
+	});
+
+	self.newDate.subscribe(function(newDate) {
+		console.log("NEW DATE POOPED", newDate)
+		console.log("NEW", self.when())
+		self.when.push(newDate)
+		console.log("NEW", self.when())
+		saver("when", self.when());
 	});
 	self.newWho.subscribe(function(newNewWho) {
 		saveNewPooper()

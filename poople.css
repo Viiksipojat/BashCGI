@@ -3,6 +3,11 @@ table.table {
 	border-spacing: 4px;
 }
 
-td.date {
-	border-bottom: 4px solid;
+td, th {
+	border: none !important;
 }
+
+td.date {
+	border-bottom: 4px silver solid !important;
+}
+
