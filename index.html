@@ -19,11 +19,30 @@
 	<link rel="stylesheet" href="poople.css">
 </head>
 <body>
+	<div class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">POOPLE — kamut kokoon</a>
+        </div>
+      </div>
+    </div>
+
+
 	<div class="container">
+
+
+
 		<form role="form">
 
 			<div class="form-group">
 				<input type="text" placeholder="Mitä?" class="form-control input-lg" data-bind="value: what">
+			</div>
+			<div class="form-group">
 				<input type="text" placeholder="Missä?" class="form-control" data-bind="value: where">
 			</div>
 
@@ -71,10 +90,10 @@
 		</form>
 
 		<footer>
-			<p>POOPLE 2013. Viiksipojat rakastaa sinua ♡</p>
+			<p>POOPLE 2013. <span class="boyz"><a href="http://viiksipojat.fi">Viiksipojat</a> rakastaa sinua ♡</span></p>
 		</footer>
 	</div>
 
-	
+
 </body>
 </html>

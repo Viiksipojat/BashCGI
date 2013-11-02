@@ -11,3 +11,12 @@ td.date {
 	border-bottom: 4px silver solid !important;
 }
 
+footer {
+	margin-top: 7em;
+}
+
+footer .boyz {
+	font-family: Cochin, serif;
+	font-style: italic;
+	font-size: larger;
+}
