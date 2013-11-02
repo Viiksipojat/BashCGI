@@ -9,38 +9,50 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript" src="http://rawgithub.com/quirkey/sammy/master/lib/min/sammy-latest.min.js"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
-	<script src="poople.js"></script>
 
 	<!-- BOOTSTARPPPP  -->
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css">
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+
+	<script src="poople.js" defer></script>
 </head>
 <body>
 	<div class="container">
 		<form role="form">
 
 			<div class="form-group">
-				<input type="text" placeholder="Mitä?" class="form-control input-lg">
-				<input type="text" placeholder="Missä?" class="form-control">
+				<input type="text" placeholder="Mitä?" class="form-control input-lg" data-bind="attr: { value: what }">
+				<input type="text" placeholder="Missä?" class="form-control" data-bind="attr: {value: where }">
 			</div>
 
 			<table class="table">
 				<thead>
 					<tr>
 						<th></th>
-						<td colspan="2">La 2.11.</td>
-						<td colspan="1">Su 3.11.</td>
+						<!--<td colspan="2">La 2.11.</td>
+						<td colspan="1">Su 3.11.</td>-->
+						<!-- ko foreach: when -->
+						<td data-bind="text: $data"></td>
+						<!-- /ko -->
 					</tr>
-					<tr>
+					<!--<tr>
 						<td></td>
 						<td>klo 13</td>
 						<td>klo 17</td>
 						<td>klo 13</td>
-					</tr>
+					</tr>-->
 				</thead>
 				<tbody>
+					<!-- ko foreach: who -->
 					<tr>
+						<th data-bind="text: $data.name"></th>
+						<!-- ko foreach: when -->
+						<td><p data-bind="text: $data"></p></td>
+						<!-- /ko -->
+					</tr>
+					<!-- /ko -->
+					<!--<tr>
 						<th>LOLA</th>
 						<td><input type="checkbox"></td>
 						<td><input type="checkbox" checked></td>
@@ -51,12 +63,12 @@
 						<td><input type="checkbox"></td>
 						<td><input type="checkbox" checked></td>
 						<td><input type="checkbox" checked></td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th><input type="text" class="form-control" placeholder="Kuka?"></th>
+						<!--<td><input type="checkbox"></td>
 						<td><input type="checkbox"></td>
-						<td><input type="checkbox"></td>
-						<td><input type="checkbox"></td>
+						<td><input type="checkbox"></td>-->
 					</tr>
 				</tbody>
 			</table>
@@ -68,5 +80,6 @@
 		</footer>
 	</div>
 
+	
 </body>
 </html>
