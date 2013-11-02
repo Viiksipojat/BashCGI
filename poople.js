@@ -2,7 +2,6 @@ function Pooper(name, when, globalWhen) {
 	var self = this
 	self.name  = name
 	self.when = ko.observableArray();
-	console.log(when, globalWhen)
 	for (var i = 0; i < globalWhen.length; i++) {
 		if (when.indexOf(globalWhen[i]) != -1)
 			self.when.push(true)
@@ -23,12 +22,14 @@ function PoopleViewModel() {
 
 	self.poopid = null
 	self.poop = null
+	self.newpooper = null
 
 	self.what  = ko.observable()
 	self.where = ko.observable()
 	self.when  = ko.observableArray()
 	self.who   = ko.observableArray()
-	self.newGuy = ko.observable()
+	self.newWho  = ko.observable()
+	self.newWhen = ko.observableArray([])
 
 	self.when2d = ko.computed(function() {
 		var computedWhen = {}
@@ -93,8 +94,12 @@ function PoopleViewModel() {
 				var who = data.val();
 				self.who.removeAll();
 				for (var dude in who) {
-					console.log("DUDE", who[dude], self.when())
-					self.who.push(new Pooper(who[dude].name, who[dude].when, self.when()));
+					if (who[dude].name != self.newWho()) {
+						if (who[dude].when)
+							self.who.push(new Pooper(who[dude].name, who[dude].when, self.when()));
+						else
+							self.who.push(new Pooper(who[dude].name, [], self.when()))
+					}
 				}
 			});
 		})
@@ -107,6 +112,21 @@ function PoopleViewModel() {
 	var saver = function(prop, val) {
 		self.poop.child(prop).set(val);
 	}
+	var saveNewPooper = function() {
+		console.log("newWho")
+		if (! self.newpooper) {
+			self.newpooper = self.poop.child("who").push({
+				"name": self.newWho(),
+				"when": self.newWhen()
+			})
+		}
+		else {
+			self.newpooper.set({
+				"name": self.newWho(),
+				"when": self.newWhen()
+			})
+		}
+	}
 	// TODO: beautify
 	self.what.subscribe(function(newWhat) {
 		saver("what", newWhat);
@@ -114,17 +134,13 @@ function PoopleViewModel() {
 	self.where.subscribe(function(newWhere) {
 		saver("where", newWhere);
 	});
-	self.newGuy.subscribe(function(newNewGuy) {
-		console.log("NEWGUY")
-		self.poop.child("who").push({
-			"name": newNewGuy,
-			"when": [ "titties", "hookers"]
-		})
+	self.newWho.subscribe(function(newNewWho) {
+		saveNewPooper()
 	})
-	self.when2d.subscribe(function(newWhen) {
-		// TODO
+	self.newWhen.subscribe(function(newNewWhen) {
+		saveNewPooper()
 	});
-	self.who.subscribe(function(newWho) {
+	self.when2d.subscribe(function(newWhen) {
 		// TODO
 	});
 

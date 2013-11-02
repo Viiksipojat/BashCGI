@@ -49,15 +49,15 @@
 					<tr>
 						<th data-bind="text: name"></th>
 						<!-- ko foreach: when -->
-						<td><input type="checkbox" data-bind="checked: $data"></td>
+						<td><input type="checkbox" disabled data-bind="checked: $data"></td>
 						<!-- /ko -->
 					</tr>
 					<!-- /ko -->
 					<tr>
-						<th><input type="text" class="form-control" placeholder="Kuka?" data-bind="value: newGuy"></th>
+						<th><input type="text" class="form-control" placeholder="Kuka?" data-bind="value: newWho"></th>
 						<!-- ko foreach: when2d() -->
 							<!-- ko foreach: $data.times() -->
-								<td><input type="checkbox"></td>
+								<td><input type="checkbox" data-bind="checked: newWhen, value: $parent.date + 'T' + $data"></td>
 							<!-- /ko -->
 						<!-- /ko -->
 					</tr>
