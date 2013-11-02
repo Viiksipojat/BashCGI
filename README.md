@@ -6,8 +6,7 @@ TODO.
 AUTHORS
 =======
 
-Sampumon
-Mikkotron
+Sampumon / Mikkotron
 
 LINX
 ====
