@@ -16,59 +16,50 @@
 	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 
 	<script src="poople.js" defer></script>
+	<link rel="stylesheet" href="poople.css">
 </head>
 <body>
 	<div class="container">
 		<form role="form">
 
 			<div class="form-group">
-				<input type="text" placeholder="Mitä?" class="form-control input-lg" data-bind="attr: { value: what }">
-				<input type="text" placeholder="Missä?" class="form-control" data-bind="attr: {value: where }">
+				<input type="text" placeholder="Mitä?" class="form-control input-lg" data-bind="value: what">
+				<input type="text" placeholder="Missä?" class="form-control" data-bind="value: where">
 			</div>
 
 			<table class="table">
 				<thead>
 					<tr>
 						<th></th>
-						<!--<td colspan="2">La 2.11.</td>
-						<td colspan="1">Su 3.11.</td>-->
-						<!-- ko foreach: when -->
-						<td data-bind="text: $data"></td>
+						<!-- ko foreach: when2d() -->
+						<td class="date" data-bind="text: $data.date, attr: {colspan: $data.times().length}"></td>
 						<!-- /ko -->
 					</tr>
-					<!--<tr>
-						<td></td>
-						<td>klo 13</td>
-						<td>klo 17</td>
-						<td>klo 13</td>
-					</tr>-->
+					<tr>
+						<th></th>
+						<!-- ko foreach: when2d() -->
+							<!-- ko foreach: $data.times() -->
+								<td data-bind="text: $data"></td>
+							<!-- /ko -->
+						<!-- /ko -->
+					</tr>
 				</thead>
 				<tbody>
 					<!-- ko foreach: who -->
 					<tr>
-						<th data-bind="text: $data.name"></th>
+						<th data-bind="text: name"></th>
 						<!-- ko foreach: when -->
-						<td><p data-bind="text: $data"></p></td>
+						<td><input type="checkbox" data-bind="checked: $data"></td>
 						<!-- /ko -->
 					</tr>
 					<!-- /ko -->
-					<!--<tr>
-						<th>LOLA</th>
-						<td><input type="checkbox"></td>
-						<td><input type="checkbox" checked></td>
-						<td><input type="checkbox"></td>
-					</tr>
 					<tr>
-						<th>PEKO</th>
-						<td><input type="checkbox"></td>
-						<td><input type="checkbox" checked></td>
-						<td><input type="checkbox" checked></td>
-					</tr>-->
-					<tr>
-						<th><input type="text" class="form-control" placeholder="Kuka?"></th>
-						<!--<td><input type="checkbox"></td>
-						<td><input type="checkbox"></td>
-						<td><input type="checkbox"></td>-->
+						<th><input type="text" class="form-control" placeholder="Kuka?" data-bind="value: newGuy"></th>
+						<!-- ko foreach: when2d() -->
+							<!-- ko foreach: $data.times() -->
+								<td><input type="checkbox"></td>
+							<!-- /ko -->
+						<!-- /ko -->
 					</tr>
 				</tbody>
 			</table>

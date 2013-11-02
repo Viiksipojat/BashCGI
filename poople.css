@@ -1,0 +1,8 @@
+table.table {
+	border-collapse: separate;
+	border-spacing: 4px;
+}
+
+td.date {
+	border-bottom: 4px solid;
+}
